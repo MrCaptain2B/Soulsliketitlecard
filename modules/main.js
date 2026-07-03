@@ -21,6 +21,7 @@ Hooks.once('init', () => {
 Hooks.once('ready', () => {
     console.log('Soulslike Title Card | Ready');
     _previousSceneId = game.scenes?.current?.id || null;
+    _injectSidebarButton();
 });
 
 Hooks.on('canvasReady', () => {
@@ -56,3 +57,37 @@ Hooks.on('canvasReady', () => {
         SoulslikeTitleCard.show(title, { subtitle, style });
     }
 });
+
+function _injectSidebarButton() {
+    try {
+        if (document.getElementById('stc-config-btn')) return;
+
+        const menuEl =
+            document.querySelector('#sidebar menu.flexcol') ||
+            document.querySelector('#ui-right menu.flexcol') ||
+            document.querySelector('menu.flexcol');
+        if (!menuEl) return;
+
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.id = 'stc-config-btn';
+        btn.className = 'stc-config-btn ui-control plain icon fas fa-signature';
+        btn.setAttribute('data-tooltip', game.i18n.localize('SOULSLIKE.Dialog.ButtonTitle') || 'Soulslike Title Card');
+        btn.setAttribute('aria-label', game.i18n.localize('SOULSLIKE.Dialog.ButtonTitle') || 'Soulslike Title Card');
+        btn.title = game.i18n.localize('SOULSLIKE.Dialog.ButtonTitle') || 'Soulslike Title Card';
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            SoulslikeTitleCard.openTitleCardDialog();
+        });
+
+        li.appendChild(btn);
+        menuEl.prepend(li);
+        debug('Sidebar button injected');
+    } catch (err) {
+        console.warn('Soulslike Title Card | Could not inject sidebar button:', err);
+    }
+}
+
+Hooks.on('renderSidebar', () => _injectSidebarButton());
+Hooks.on('renderSidebarTab', () => _injectSidebarButton());

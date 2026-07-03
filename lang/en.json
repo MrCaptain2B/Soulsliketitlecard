@@ -17,6 +17,25 @@
             "SoundEnabledHint": "Play a sound effect when title appears (requires audio file path in scene flags)",
             "Debug": "Debug mode",
             "DebugHint": "Log debug messages to console"
+        },
+        "Dialog": {
+            "Title": "Soulslike Title Card Configurator",
+            "ButtonTitle": "Soulslike Title Card",
+            "Scene": "Scene",
+            "StyleIn": "Style",
+            "TitleIn": "Title (entering)",
+            "TitleInPH": "Leave blank to use scene name",
+            "TitleOut": "Title (exiting)",
+            "TitleOutPH": "Leave blank to use scene name",
+            "SubtitleIn": "Subtitle (entering)",
+            "SubtitleInPH": "Optional subtitle on enter",
+            "SubtitleOut": "Subtitle (exiting)",
+            "SubtitleOutPH": "Optional subtitle on exit",
+            "Preview": "Preview",
+            "Save": "Save to Scene",
+            "Cancel": "Cancel",
+            "NoScene": "Scene not found!",
+            "Saved": "Flags saved to scene \"{name}\""
         }
     }
 }

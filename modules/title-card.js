@@ -102,4 +102,111 @@ export class SoulslikeTitleCard {
         div.appendChild(document.createTextNode(String(str)));
         return div.innerHTML;
     }
+
+    static async openTitleCardDialog() {
+        const MODULE = 'soulslike-title-card';
+        const scenes = game.scenes.map(s => `<option value="${s.id}" ${canvas?.scene?.id === s.id ? 'selected' : ''}>${this._escapeHtml(s.name)}</option>`).join('');
+        const styles = ['dark-souls', 'elden-ring', 'sekiro', 'bloodborne', 'hollow-knight'];
+        const styleOpts = styles.map(s => `<option value="${s}">${s.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</option>`).join('');
+
+        const content = `
+            <form id="stc-dialog-form">
+                <div class="stc-dialog-grid">
+                    <div class="stc-field">
+                        <label>${game.i18n.localize('SOULSLIKE.Dialog.Scene')}</label>
+                        <select id="stc-scene">${scenes}</select>
+                    </div>
+                    <div class="stc-field">
+                        <label>${game.i18n.localize('SOULSLIKE.Dialog.StyleIn')}</label>
+                        <select id="stc-style">${styleOpts}</select>
+                    </div>
+                    <div class="stc-field">
+                        <label>${game.i18n.localize('SOULSLIKE.Dialog.TitleIn')}</label>
+                        <input type="text" id="stc-title-in" placeholder="${game.i18n.localize('SOULSLIKE.Dialog.TitleInPH')}">
+                    </div>
+                    <div class="stc-field">
+                        <label>${game.i18n.localize('SOULSLIKE.Dialog.TitleOut')}</label>
+                        <input type="text" id="stc-title-out" placeholder="${game.i18n.localize('SOULSLIKE.Dialog.TitleOutPH')}">
+                    </div>
+                    <div class="stc-field">
+                        <label>${game.i18n.localize('SOULSLIKE.Dialog.SubtitleIn')}</label>
+                        <input type="text" id="stc-subtitle-in" placeholder="${game.i18n.localize('SOULSLIKE.Dialog.SubtitleInPH')}">
+                    </div>
+                    <div class="stc-field">
+                        <label>${game.i18n.localize('SOULSLIKE.Dialog.SubtitleOut')}</label>
+                        <input type="text" id="stc-subtitle-out" placeholder="${game.i18n.localize('SOULSLIKE.Dialog.SubtitleOutPH')}">
+                    </div>
+                </div>
+            </form>
+        `;
+
+        new Dialog({
+            title: game.i18n.localize('SOULSLIKE.Dialog.Title'),
+            content,
+            buttons: {
+                preview: {
+                    icon: '<i class="fas fa-eye"></i>',
+                    label: game.i18n.localize('SOULSLIKE.Dialog.Preview'),
+                    callback: (html) => {
+                        const form = html[0].querySelector('#stc-dialog-form');
+                        const scene = game.scenes.get(form.querySelector('#stc-scene').value);
+                        const titleIn = form.querySelector('#stc-title-in').value || scene?.name || '';
+                        const subtitleIn = form.querySelector('#stc-subtitle-in').value || '';
+                        const style = form.querySelector('#stc-style').value;
+                        SoulslikeTitleCard.show(titleIn, { subtitle: subtitleIn, style });
+                    }
+                },
+                save: {
+                    icon: '<i class="fas fa-save"></i>',
+                    label: game.i18n.localize('SOULSLIKE.Dialog.Save'),
+                    callback: async (html) => {
+                        const form = html[0].querySelector('#stc-dialog-form');
+                        const sceneId = form.querySelector('#stc-scene').value;
+                        const scene = game.scenes.get(sceneId);
+                        if (!scene) return ui.notifications.warn(game.i18n.localize('SOULSLIKE.Dialog.NoScene'));
+
+                        const style = form.querySelector('#stc-style').value;
+                        const titleIn = form.querySelector('#stc-title-in').value;
+                        const titleOut = form.querySelector('#stc-title-out').value;
+                        const subtitleIn = form.querySelector('#stc-subtitle-in').value;
+                        const subtitleOut = form.querySelector('#stc-subtitle-out').value;
+
+                        const flags = {};
+                        if (titleIn) flags.titleIn = titleIn;
+                        if (titleOut) flags.titleOut = titleOut;
+                        if (subtitleIn) flags.subtitle = subtitleIn;
+                        if (subtitleOut) flags.subtitleOut = subtitleOut;
+                        flags.style = style;
+
+                        await scene.setFlag(MODULE, flags);
+                        ui.notifications.info(game.i18n.format('SOULSLIKE.Dialog.Saved', { name: scene.name }));
+                    }
+                },
+                cancel: {
+                    icon: '<i class="fas fa-times"></i>',
+                    label: game.i18n.localize('SOULSLIKE.Dialog.Cancel')
+                }
+            },
+            default: 'preview',
+            render: (html) => {
+                const form = html[0].querySelector('#stc-dialog-form');
+                const sceneSelect = form.querySelector('#stc-scene');
+                const styleSelect = form.querySelector('#stc-style');
+
+                const populate = () => {
+                    const scene = game.scenes.get(sceneSelect.value);
+                    if (!scene) return;
+                    const flags = scene.flags?.[MODULE] || {};
+                    form.querySelector('#stc-title-in').value = flags.titleIn || '';
+                    form.querySelector('#stc-title-out').value = flags.titleOut || '';
+                    form.querySelector('#stc-subtitle-in').value = flags.subtitle || '';
+                    form.querySelector('#stc-subtitle-out').value = flags.subtitleOut || '';
+                    if (flags.style) styleSelect.value = flags.style;
+                };
+
+                sceneSelect.addEventListener('change', populate);
+                populate();
+            }
+        }, { width: 500, classes: ['dialog', 'stc-dialog'] }).render(true);
+    }
 }

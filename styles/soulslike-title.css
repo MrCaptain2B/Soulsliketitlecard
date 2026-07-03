@@ -314,3 +314,134 @@
 #soulslike-title-card.stc-style-hollow-knight.stc-hidden .stc-subtitle {
     transition: opacity calc(var(--stc-fade-out) * 0.5) ease-in;
 }
+
+/* ═══════════════════════════════════════════
+   SIDEBAR BUTTON & DIALOG
+   ═══════════════════════════════════════════ */
+
+#stc-config-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 1;
+    color: #d4a847;
+    opacity: 0.75;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.2s, color 0.2s, text-shadow 0.2s, background 0.2s;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+#stc-config-btn:hover {
+    opacity: 1;
+    color: #fff;
+    background: rgba(212, 168, 71, 0.12);
+    text-shadow: 0 0 10px rgba(212, 168, 71, 0.9);
+}
+
+.stc-dialog.window-app {
+    background: rgba(10, 10, 12, 0.98) !important;
+    border: 1px solid rgba(212, 168, 71, 0.4) !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 168, 71, 0.15) !important;
+    border-radius: 4px !important;
+}
+
+.stc-dialog .window-header {
+    background: rgba(0, 0, 0, 0.5) !important;
+    border-bottom: 1px solid rgba(212, 168, 71, 0.25) !important;
+    color: #d4a847 !important;
+    font-family: 'Cinzel', serif !important;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 6px 12px !important;
+}
+
+.stc-dialog .window-header .window-title {
+    font-weight: bold !important;
+    font-size: 13px !important;
+    text-shadow: 0 0 8px rgba(212, 168, 71, 0.3) !important;
+}
+
+.stc-dialog .window-content {
+    background: transparent !important;
+    color: #ccc !important;
+    font-family: 'Cormorant Garamond', serif !important;
+}
+
+.stc-dialog-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.stc-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+
+.stc-field label {
+    color: #d4a847;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-family: 'Cinzel', serif;
+}
+
+.stc-field input,
+.stc-field select {
+    width: 100%;
+    padding: 5px 8px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.6) !important;
+    border: 1px solid rgba(212, 168, 71, 0.2) !important;
+    color: #eee !important;
+    font-family: 'Cormorant Garamond', serif !important;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.stc-field input:focus,
+.stc-field select:focus {
+    border-color: #d4a847 !important;
+    box-shadow: 0 0 8px rgba(212, 168, 71, 0.2) !important;
+    outline: none !important;
+}
+
+.stc-dialog .dialog-buttons {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border-top: 1px solid rgba(212, 168, 71, 0.2) !important;
+    padding: 10px !important;
+    gap: 8px !important;
+    display: flex !important;
+}
+
+.stc-dialog .dialog-buttons .dialog-button {
+    font-family: 'Cinzel', serif !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    font-weight: bold !important;
+    font-size: 12px !important;
+    border-radius: 3px !important;
+    border: 1px solid rgba(212, 168, 71, 0.3) !important;
+    background: rgba(212, 168, 71, 0.05) !important;
+    color: #d4a847 !important;
+    height: 32px !important;
+    line-height: 30px !important;
+    transition: all 0.25s ease-in-out !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    flex: 1 !important;
+}
+
+.stc-dialog .dialog-buttons .dialog-button:hover {
+    background: rgba(212, 168, 71, 0.15) !important;
+    border-color: #d4a847 !important;
+    box-shadow: 0 0 10px rgba(212, 168, 71, 0.3) !important;
+    color: #fff !important;
+}
