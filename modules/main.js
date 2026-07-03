@@ -63,12 +63,11 @@ function _injectSidebarButton() {
         if (document.getElementById('stc-config-btn')) return;
 
         const menuEl =
-            document.querySelector('#sidebar menu.flexcol') ||
-            document.querySelector('#ui-right menu.flexcol') ||
-            document.querySelector('menu.flexcol');
+            document.querySelector('#sidebar-controls') ||
+            document.querySelector('#sidebar menu.sidebar-controls') ||
+            document.querySelector('#sidebar menu.flexcol');
         if (!menuEl) return;
 
-        const li = document.createElement('li');
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.id = 'stc-config-btn';
@@ -81,8 +80,7 @@ function _injectSidebarButton() {
             SoulslikeTitleCard.openTitleCardDialog();
         });
 
-        li.appendChild(btn);
-        menuEl.prepend(li);
+        menuEl.prepend(btn);
         debug('Sidebar button injected');
     } catch (err) {
         console.warn('Soulslike Title Card | Could not inject sidebar button:', err);
@@ -91,3 +89,24 @@ function _injectSidebarButton() {
 
 Hooks.on('renderSidebar', () => _injectSidebarButton());
 Hooks.on('renderSidebarTab', () => _injectSidebarButton());
+Hooks.on('getSceneControlButtons', (controls) => {
+    const isV14 = !foundry.utils.isNewerVersion('14.0.0', game.version);
+    const tokenControl = isV14 ? controls.tokens : controls.find(c => c.name === 'token');
+    if (!tokenControl?.tools) return;
+
+    const tool = {
+        name: 'soulslike-title',
+        title: game.i18n.localize('SOULSLIKE.Dialog.ButtonTitle') || 'Soulslike Title Card',
+        icon: 'fas fa-signature',
+        onClick: () => SoulslikeTitleCard.openTitleCardDialog(),
+        button: true
+    };
+
+    if (isV14) {
+        tokenControl.tools['soulslike-title'] = tool;
+    } else {
+        if (!tokenControl.tools.some(t => t.name === 'soulslike-title')) {
+            tokenControl.tools.push(tool);
+        }
+    }
+});
