@@ -21,7 +21,7 @@ Hooks.once('init', () => {
 Hooks.once('ready', () => {
     console.log('Soulslike Title Card | Ready');
     _previousSceneId = game.scenes?.current?.id || null;
-    _injectSidebarButton();
+    _injectWithRetry();
 });
 
 Hooks.on('canvasReady', () => {
@@ -66,7 +66,11 @@ function _injectSidebarButton() {
             document.querySelector('#sidebar-controls') ||
             document.querySelector('#sidebar menu.sidebar-controls') ||
             document.querySelector('#sidebar menu.flexcol');
-        if (!menuEl) return;
+
+        if (!menuEl) {
+            debug('Sidebar controls container not found, will retry');
+            return;
+        }
 
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -81,32 +85,22 @@ function _injectSidebarButton() {
         });
 
         menuEl.prepend(btn);
-        debug('Sidebar button injected');
+        debug('Sidebar button injected into', menuEl);
     } catch (err) {
         console.warn('Soulslike Title Card | Could not inject sidebar button:', err);
     }
 }
 
-Hooks.on('renderSidebar', () => _injectSidebarButton());
-Hooks.on('renderSidebarTab', () => _injectSidebarButton());
-Hooks.on('getSceneControlButtons', (controls) => {
-    const isV14 = !foundry.utils.isNewerVersion('14.0.0', game.version);
-    const tokenControl = isV14 ? controls.tokens : controls.find(c => c.name === 'token');
-    if (!tokenControl?.tools) return;
-
-    const tool = {
-        name: 'soulslike-title',
-        title: game.i18n.localize('SOULSLIKE.Dialog.ButtonTitle') || 'Soulslike Title Card',
-        icon: 'fas fa-signature',
-        onClick: () => SoulslikeTitleCard.openTitleCardDialog(),
-        button: true
-    };
-
-    if (isV14) {
-        tokenControl.tools['soulslike-title'] = tool;
-    } else {
-        if (!tokenControl.tools.some(t => t.name === 'soulslike-title')) {
-            tokenControl.tools.push(tool);
-        }
+function _injectWithRetry(maxAttempts = 5) {
+    if (document.getElementById('stc-config-btn')) return;
+    if (maxAttempts <= 0) {
+        console.warn('Soulslike Title Card | Failed to inject sidebar button after retries');
+        return;
     }
-});
+    _injectSidebarButton();
+    if (!document.getElementById('stc-config-btn')) {
+        setTimeout(() => _injectWithRetry(maxAttempts - 1), 500);
+    }
+}
+
+
