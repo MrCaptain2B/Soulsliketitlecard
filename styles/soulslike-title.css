@@ -1,0 +1,316 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;700&family=MedievalSharp&family=Special+Elite&display=swap');
+
+:root {
+    --stc-fade-in: 1000ms;
+    --stc-hold: 3000ms;
+    --stc-fade-out: 1500ms;
+}
+
+#soulslike-title-card {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.stc-backdrop {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--stc-fade-in) ease-in;
+}
+
+.stc-content {
+    position: relative;
+    text-align: center;
+    user-select: none;
+}
+
+.stc-title {
+    font-size: 72px;
+    line-height: 1.1;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+}
+
+.stc-subtitle {
+    font-size: 24px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0;
+    margin-top: 16px;
+}
+
+#soulslike-title-card.stc-visible .stc-title {
+    opacity: 1;
+}
+
+#soulslike-title-card.stc-visible .stc-subtitle {
+    opacity: 1;
+}
+
+#soulslike-title-card.stc-hidden,
+#soulslike-title-card.stc-hidden .stc-backdrop {
+    opacity: 0 !important;
+    transition: opacity var(--stc-fade-out) ease-out !important;
+}
+
+/* ═══════════════════════════════════════════
+   STYLE: Dark Souls
+   Белый текст на чёрной полосе, появление
+   снизу вверх (slide-up + fade)
+   ═══════════════════════════════════════════ */
+
+#soulslike-title-card.stc-style-dark-souls .stc-backdrop {
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.85) 35%,
+        rgba(0, 0, 0, 0.95) 50%,
+        rgba(0, 0, 0, 0.85) 65%,
+        transparent 100%
+    );
+}
+
+#soulslike-title-card.stc-style-dark-souls .stc-title {
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    color: #f0f0f0;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.15), 0 4px 8px rgba(0, 0, 0, 0.8);
+    transform: translateY(40px);
+    transition: opacity var(--stc-fade-in) ease-out, transform var(--stc-fade-in) ease-out;
+}
+
+#soulslike-title-card.stc-style-dark-souls .stc-subtitle {
+    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    color: #c0c0c0;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    transform: translateY(20px);
+    transition: opacity var(--stc-fade-in) ease-out 200ms, transform var(--stc-fade-in) ease-out 200ms;
+}
+
+#soulslike-title-card.stc-style-dark-souls.stc-visible .stc-title {
+    transform: translateY(0);
+}
+
+#soulslike-title-card.stc-style-dark-souls.stc-visible .stc-subtitle {
+    transform: translateY(0);
+}
+
+#soulslike-title-card.stc-style-dark-souls.stc-hidden .stc-title,
+#soulslike-title-card.stc-style-dark-souls.stc-hidden .stc-subtitle {
+    transform: translateY(-30px);
+    transition: opacity var(--stc-fade-out) ease-in, transform var(--stc-fade-out) ease-in;
+}
+
+/* ═══════════════════════════════════════════
+   STYLE: Elden Ring
+   Золотой эпичный текст с glow, scale-up
+   появление из центра
+   ═══════════════════════════════════════════ */
+
+#soulslike-title-card.stc-style-elden-ring .stc-backdrop {
+    background: radial-gradient(
+        ellipse at center,
+        rgba(40, 30, 10, 0.9) 0%,
+        rgba(10, 8, 4, 0.95) 60%,
+        transparent 100%
+    );
+}
+
+#soulslike-title-card.stc-style-elden-ring .stc-title {
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-weight: 900;
+    color: #ffd700;
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.4),
+        0 0 30px rgba(255, 215, 0, 0.3),
+        0 0 60px rgba(255, 215, 0, 0.15),
+        0 4px 8px rgba(0, 0, 0, 0.8);
+    transform: scale(0.7);
+    transition: opacity var(--stc-fade-in) ease-out, transform var(--stc-fade-in) ease-out;
+}
+
+#soulslike-title-card.stc-style-elden-ring .stc-subtitle {
+    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    font-weight: 300;
+    color: #d4a847;
+    text-shadow: 0 0 20px rgba(212, 168, 71, 0.3);
+    transform: scale(0.8);
+    transition: opacity var(--stc-fade-in) ease-out 300ms, transform var(--stc-fade-in) ease-out 300ms;
+}
+
+#soulslike-title-card.stc-style-elden-ring.stc-visible .stc-title {
+    transform: scale(1);
+}
+
+#soulslike-title-card.stc-style-elden-ring.stc-visible .stc-subtitle {
+    transform: scale(1);
+}
+
+#soulslike-title-card.stc-style-elden-ring.stc-hidden .stc-title,
+#soulslike-title-card.stc-style-elden-ring.stc-hidden .stc-subtitle {
+    transform: scale(1.1);
+    opacity: 0 !important;
+    transition: opacity var(--stc-fade-out) ease-in, transform var(--stc-fade-out) ease-in;
+}
+
+/* ═══════════════════════════════════════════
+   STYLE: Sekiro
+   Японский стиль: вертикально, кисть,
+   красный на чёрном
+   ═══════════════════════════════════════════ */
+
+@font-face {
+    font-family: 'SekiroBrush';
+    src: local('Noto Serif JP'), local('Serif');
+}
+
+#soulslike-title-card.stc-style-sekiro .stc-backdrop {
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(0, 0, 0, 0.7) 15%,
+        rgba(0, 0, 0, 0.95) 40%,
+        rgba(0, 0, 0, 0.95) 60%,
+        rgba(0, 0, 0, 0.7) 85%,
+        transparent 100%
+    );
+}
+
+#soulslike-title-card.stc-style-sekiro .stc-content {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: center;
+}
+
+#soulslike-title-card.stc-style-sekiro .stc-title {
+    font-family: 'Special Elite', 'Noto Serif JP', serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: #cc3333;
+    letter-spacing: 0.4em;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    text-shadow:
+        0 0 15px rgba(204, 51, 51, 0.3),
+        2px 2px 0 rgba(0, 0, 0, 0.8);
+    transform: translateY(-30px);
+    transition: opacity var(--stc-fade-in) ease-out, transform var(--stc-fade-in) ease-out;
+}
+
+#soulslike-title-card.stc-style-sekiro .stc-subtitle {
+    font-family: 'Special Elite', serif;
+    color: #aa5555;
+    letter-spacing: 0.4em;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 18px;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+    transform: translateY(-20px);
+    transition: opacity var(--stc-fade-in) ease-out 200ms, transform var(--stc-fade-in) ease-out 200ms;
+}
+
+#soulslike-title-card.stc-style-sekiro.stc-visible .stc-title {
+    transform: translateY(0);
+}
+
+#soulslike-title-card.stc-style-sekiro.stc-visible .stc-subtitle {
+    transform: translateY(0);
+}
+
+#soulslike-title-card.stc-style-sekiro.stc-hidden .stc-title,
+#soulslike-title-card.stc-style-sekiro.stc-hidden .stc-subtitle {
+    transform: translateY(30px);
+    transition: opacity var(--stc-fade-out) ease-in, transform var(--stc-fade-out) ease-in;
+}
+
+/* ═══════════════════════════════════════════
+   STYLE: Bloodborne
+   Готика, тёмно-красный, misty glow,
+   появление из тьмы
+   ═══════════════════════════════════════════ */
+
+#soulslike-title-card.stc-style-bloodborne .stc-backdrop {
+    background: radial-gradient(
+        ellipse at center,
+        rgba(40, 5, 5, 0.85) 0%,
+        rgba(10, 2, 2, 0.95) 50%,
+        transparent 100%
+    );
+}
+
+#soulslike-title-card.stc-style-bloodborne .stc-title {
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-weight: 700;
+    color: #8b1a1a;
+    text-shadow:
+        0 0 20px rgba(139, 26, 26, 0.4),
+        0 0 50px rgba(139, 26, 26, 0.2),
+        2px 2px 4px rgba(0, 0, 0, 0.9);
+    transform: scale(0.9) translateY(10px);
+    filter: blur(4px);
+    transition: opacity var(--stc-fade-in) ease-out, transform var(--stc-fade-in) ease-out, filter var(--stc-fade-in) ease-out;
+}
+
+#soulslike-title-card.stc-style-bloodborne .stc-subtitle {
+    font-family: 'Cinzel', serif;
+    color: #662222;
+    text-shadow: 0 0 15px rgba(102, 34, 34, 0.3);
+    filter: blur(2px);
+    transition: opacity var(--stc-fade-in) ease-out 300ms, transform var(--stc-fade-in) ease-out 300ms, filter var(--stc-fade-in) ease-out 300ms;
+}
+
+#soulslike-title-card.stc-style-bloodborne.stc-visible .stc-title {
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+}
+
+#soulslike-title-card.stc-style-bloodborne.stc-visible .stc-subtitle {
+    filter: blur(0);
+}
+
+#soulslike-title-card.stc-style-bloodborne.stc-hidden .stc-title {
+    filter: blur(6px);
+    transform: scale(0.95);
+    opacity: 0 !important;
+    transition: opacity var(--stc-fade-out) ease-in, transform var(--stc-fade-out) ease-in, filter var(--stc-fade-out) ease-in;
+}
+
+/* ═══════════════════════════════════════════
+   STYLE: Hollow Knight
+   Чистый белый, без фона, быстрый fade,
+   минимализм
+   ═══════════════════════════════════════════ */
+
+#soulslike-title-card.stc-style-hollow-knight .stc-backdrop {
+    background: transparent;
+}
+
+#soulslike-title-card.stc-style-hollow-knight .stc-title {
+    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    font-weight: 300;
+    color: #ffffff;
+    letter-spacing: 0.25em;
+    text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+    font-size: 56px;
+    transition: opacity calc(var(--stc-fade-in) * 0.6) ease-out;
+}
+
+#soulslike-title-card.stc-style-hollow-knight .stc-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    color: #aaaaaa;
+    letter-spacing: 0.4em;
+    font-size: 18px;
+    transition: opacity calc(var(--stc-fade-in) * 0.6) ease-out 200ms;
+}
+
+#soulslike-title-card.stc-style-hollow-knight.stc-hidden .stc-title,
+#soulslike-title-card.stc-style-hollow-knight.stc-hidden .stc-subtitle {
+    transition: opacity calc(var(--stc-fade-out) * 0.5) ease-in;
+}

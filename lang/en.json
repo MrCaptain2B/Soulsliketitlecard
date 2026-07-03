@@ -1,0 +1,22 @@
+{
+    "SOULSLIKE": {
+        "Settings": {
+            "AutoShow": "Auto-show on scene change",
+            "AutoShowHint": "Automatically display title card when entering a scene",
+            "DefaultStyle": "Default style",
+            "DefaultStyleHint": "Default Soulslike visual style for title cards",
+            "FadeIn": "Fade-in duration (ms)",
+            "FadeInHint": "Duration of the entrance animation",
+            "Hold": "Hold duration (ms)",
+            "HoldHint": "How long the title stays visible",
+            "FadeOut": "Fade-out duration (ms)",
+            "FadeOutHint": "Duration of the exit animation",
+            "ShowExit": "Show exit titles",
+            "ShowExitHint": "Display a title card when leaving a scene",
+            "SoundEnabled": "Enable sound",
+            "SoundEnabledHint": "Play a sound effect when title appears (requires audio file path in scene flags)",
+            "Debug": "Debug mode",
+            "DebugHint": "Log debug messages to console"
+        }
+    }
+}
